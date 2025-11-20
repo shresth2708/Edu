@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: edupro_postgres
+    environment:
+      POSTGRES_USER: edupro
+      POSTGRES_PASSWORD: edupro123
+      POSTGRES_DB: edupro
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - edupro_network
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: edupro_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: edupro
+      MONGO_INITDB_ROOT_PASSWORD: edupro123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - edupro_network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: edupro_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - edupro_network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: edupro_backend
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://edupro:edupro123@postgres:5432/edupro
+      MONGODB_URI: mongodb://edupro:edupro123@mongodb:27017/edupro_analytics
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    networks:
+      - edupro_network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: edupro_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:5000/api/v1
+    depends_on:
+      - backend
+    networks:
+      - edupro_network
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+
+networks:
+  edupro_network:
+    driver: bridge

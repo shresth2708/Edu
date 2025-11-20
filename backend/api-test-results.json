@@ -1,0 +1,129 @@
+{
+  "timestamp": "2025-11-19T18:46:14Z",
+  "tests": [
+    {
+      "test": "Health Check",
+      "method": "GET",
+      "endpoint": "http://localhost:5001/health",
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Register Student",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/register",
+      "request_body": {
+  "name": "Test Student",
+  "email": "student@test.com",
+  "password": "Test@1234",
+  "role": "STUDENT",
+  "phone": "+919876543210"
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Register Teacher",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/register",
+      "request_body": {
+  "name": "Test Teacher",
+  "email": "teacher@test.com",
+  "password": "Test@1234",
+  "role": "TEACHER",
+  "phone": "+919876543211",
+  "subjects": ["Mathematics", "Physics"]
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Register Parent",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/register",
+      "request_body": {
+  "name": "Test Parent",
+  "email": "parent@test.com",
+  "password": "Test@1234",
+  "role": "PARENT",
+  "phone": "+919876543212"
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Login Student",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/login",
+      "request_body": {
+  "email": "student@test.com",
+  "password": "Test@1234"
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Forgot Password",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/forgot-password",
+      "request_body": {
+  "email": "student@test.com"
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Verify Email",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/verify-email",
+      "request_body": {
+  "email": "student@test.com",
+  "verificationCode": "123456"
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Resend OTP",
+      "method": "POST",
+      "endpoint": "http://localhost:5001/api/v1/auth/resend-otp",
+      "request_body": {
+  "email": "student@test.com",
+  "type": "email_verification"
+},
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "Get Course List",
+      "method": "GET",
+      "endpoint": "http://localhost:5001/api/v1/courses",
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "404 - Invalid Route",
+      "method": "GET",
+      "endpoint": "http://localhost:5001/api/v1/invalid-route",
+      "status_code": 000,
+      "response": 
+    }
+,
+    {
+      "test": "401 - Unauthorized",
+      "method": "GET",
+      "endpoint": "http://localhost:5001/api/v1/auth/me",
+      "status_code": 000,
+      "response": 
+    }
+  ]
+}
